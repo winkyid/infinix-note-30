@@ -1,0 +1,24 @@
+name: Remote Download Mirror
+
+on:
+  workflow_dispatch: # Memungkinkan kamu menjalankan ini secara manual
+
+jobs:
+  mirror_job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download File from Gofile
+        run: |
+          # Menggunakan wget dengan opsi resume dan timeout untuk memastikan kestabilan
+          wget -O "HiOS_Custom_ROM.zip" "https://store-na-phx-1.gofile.io/download/web/02baf6d7-b7e1-4a5f-b0d3-0d2de603c8ff/HiOS%2016.1.0%20for%20x6833b_Ofox%20Included%20by%20tawsif4606%20(V2).zip"
+
+      - name: Upload to GitHub Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HiOS-ROM-Package
+          path: HiOS_Custom_ROM.zip
+          retention-days: 1 # File akan otomatis dihapus dalam 1 hari untuk hemat storage
