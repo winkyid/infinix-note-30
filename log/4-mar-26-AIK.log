@@ -1,0 +1,242 @@
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./cleanup.sh
+Working directory cleaned.
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./unpackimg.sh vendor_boot.img
+ 
+Android Image Kitchen - UnpackImg Script
+by osm0sis @ xda-developers
+ 
+Supplied image: vendor_boot.img
+ 
+Setting up work folders...
+ 
+Image type: AOSP_VNDR
+ 
+Signature with "AVBv2" type detected.
+ 
+Splitting image to "split_img/"...
+VNDRBOOT magic found at: 0
+BOARD_VENDOR_CMDLINE bootopt=64S3,32N2,64N2
+BOARD_VENDOR_BASE 0x3fff8000
+BOARD_NAME 
+BOARD_PAGE_SIZE 4096
+BOARD_KERNEL_OFFSET 0x00008000
+BOARD_RAMDISK_OFFSET 0x26f08000
+BOARD_TAGS_OFFSET 0x07c88000
+BOARD_HEADER_VERSION 4
+BOARD_HEADER_SIZE 2128
+BOARD_DTB_SIZE 225257
+BOARD_DTB_OFFSET 0x07c88000
+ 
+Unpacking ramdisk (as root) to "ramdisk/"...
+ 
+Warning: Using cpio 2.13 may result in an unusable repack; downgrade to 2.12 to be safe!
+ 
+Compression used: lz4-l
+250164 blocks
+ 
+Done!
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo nano split_img/vendor_boot.img-vendor_cmdline
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./repackimg.sh --origsize
+ 
+Android Image Kitchen - RepackImg Script
+by osm0sis @ xda-developers
+ 
+Packing ramdisk (as root)...
+ 
+Warning: Using cpio 2.13 may result in an unusable repack; downgrade to 2.12 to be safe!
+ 
+Using compression: lz4-l
+ 
+Getting build information...
+dtb = vendor_boot.img-dtb
+vendor_cmdline = bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe
+board = 
+base = 0x3fff8000
+pagesize = 4096
+kernel_offset = 0x00008000
+ramdisk_offset = 0x26f08000
+tags_offset = 0x07c88000
+dtb_offset = 0x07c88000
+header_version = 4
+ 
+Building image...
+ 
+Using format: AOSP_VNDR
+ 
+Padding to original size...
+ 
+Done!
+winky@debian:~/Downloads/AIK/AIK-Linux$ ls -lh image-new.img
+-rw-r--r-- 1 root root 64M Mar  4 07:40 image-new.img
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo du -sh *
+4.0K	authors.txt
+27M	bin
+65M	boot.img
+4.0K	cleanup.sh
+52M	image-new.img
+137M	ramdisk
+52M	ramdisk-new.cpio.lz4
+16K	repackimg.sh
+51M	split_img
+12K	unpackimg.sh
+52M	unpadded-new.img
+65M	vendor_boot.img
+winky@debian:~/Downloads/AIK/AIK-Linux$ cp ~/Downloads/AIK/AIK-Linux/image-new.img ~/Downloads/platform-tools/
+winky@debian:~/Downloads/AIK/AIK-Linux$ cd ~/Downloads/AIK/AIK-Linux/split_img
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ grep -a "protected" vendor_boot.img-dtb
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ ls ~/Downloads/tes/
+boot.img   md1img.img         spmfw.img           vbmeta_system.img
+dpm.img    META-INF           sspm.img            vbmeta_vendor.img
+dtbo.img   odm_dlkm.img.zst   system_ext.img.zst  vendor_boot.img
+gz.img     pi_img.img         system.img.zst      vendor_dlkm.img.zst
+lk.img     preloader_raw.img  tee.img             vendor.img.zst
+logo.img   product.img.zst    tkv.img
+mcupm.img  scp.img            vbmeta.img
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ cd ..
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./cleanup.sh
+[sudo] password for winky: 
+Working directory cleaned.
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./unpackimg.sh boot.img
+ 
+Android Image Kitchen - UnpackImg Script
+by osm0sis @ xda-developers
+ 
+Supplied image: boot.img
+ 
+Setting up work folders...
+ 
+Image type: AOSP
+ 
+Signature with "AVBv2" type detected.
+ 
+Splitting image to "split_img/"...
+ANDROID! magic found at: 0
+BOARD_KERNEL_CMDLINE 
+BOARD_PAGE_SIZE 4096
+BOARD_OS_VERSION 12.0.0
+BOARD_OS_PATCH_LEVEL 2024-07
+BOARD_HEADER_VERSION 4
+BOARD_HEADER_SIZE 1584
+ 
+Unpacking ramdisk (as root) to "ramdisk/"...
+ 
+Warning: Using cpio 2.13 may result in an unusable repack; downgrade to 2.12 to be safe!
+ 
+Compression used: lz4-l
+4937 blocks
+ 
+Done!
+winky@debian:~/Downloads/AIK/AIK-Linux$ cat split_img/boot.img-cmdline
+
+winky@debian:~/Downloads/AIK/AIK-Linux$ grep -a "protected" ~/Downloads/tes/dtbo.img
+winky@debian:~/Downloads/AIK/AIK-Linux$ ls split_img/
+boot.img-cmdline         boot.img-kernel          boot.img-os_version
+boot.img-header_version  boot.img-origsize        boot.img-ramdiskcomp
+boot.img-imgtype         boot.img-os_patch_level  boot.img-ramdisk.cpio.lz4
+winky@debian:~/Downloads/AIK/AIK-Linux$ cat ~/Downloads/AIK/AIK-Linux/split_img/vendor_boot.img-bootconfig
+cat: /home/winky/Downloads/AIK/AIK-Linux/split_img/vendor_boot.img-bootconfig: No such file or directory
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./cleanup.sh
+Working directory cleaned.
+winky@debian:~/Downloads/AIK/AIK-Linux$ sudo ./unpackimg.sh vendor_boot.img
+ 
+Android Image Kitchen - UnpackImg Script
+by osm0sis @ xda-developers
+ 
+Supplied image: vendor_boot.img
+ 
+Setting up work folders...
+ 
+Image type: AOSP_VNDR
+ 
+Signature with "AVBv2" type detected.
+ 
+Splitting image to "split_img/"...
+VNDRBOOT magic found at: 0
+BOARD_VENDOR_CMDLINE bootopt=64S3,32N2,64N2
+BOARD_VENDOR_BASE 0x3fff8000
+BOARD_NAME 
+BOARD_PAGE_SIZE 4096
+BOARD_KERNEL_OFFSET 0x00008000
+BOARD_RAMDISK_OFFSET 0x26f08000
+BOARD_TAGS_OFFSET 0x07c88000
+BOARD_HEADER_VERSION 4
+BOARD_HEADER_SIZE 2128
+BOARD_DTB_SIZE 225257
+BOARD_DTB_OFFSET 0x07c88000
+ 
+Unpacking ramdisk (as root) to "ramdisk/"...
+ 
+Warning: Using cpio 2.13 may result in an unusable repack; downgrade to 2.12 to be safe!
+ 
+Compression used: lz4-l
+250164 blocks
+ 
+Done!
+winky@debian:~/Downloads/AIK/AIK-Linux$ cd split_img/
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ cd ..
+winky@debian:~/Downloads/AIK/AIK-Linux$ cd split_img/
+dtc -I dtb -O dts vendor_boot.img-dtb -o vendor_boot.dts
+bash: dtc: command not found
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ ls
+vendor_boot.img-base            vendor_boot.img-origsize
+vendor_boot.img-board           vendor_boot.img-pagesize
+vendor_boot.img-dtb             vendor_boot.img-ramdisk_offset
+vendor_boot.img-dtb_offset      vendor_boot.img-tags_offset
+vendor_boot.img-header_version  vendor_boot.img-vendor_cmdline
+vendor_boot.img-imgtype         vendor_boot.img-vendor_ramdiskcomp
+vendor_boot.img-kernel_offset   vendor_boot.img-vendor_ramdisk.cpio.lz4
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ sudo apt update && sudo apt install device-tree-compiler -y
+Hit:1 https://deb.debian.org/debian bookworm InRelease
+Get:2 https://dl.google.com/linux/chrome/deb stable InRelease [1,825 B]        
+Get:3 https://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+Get:4 https://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]       
+Hit:5 https://pkg.cloudflareclient.com bookworm InRelease                      
+Get:6 https://pkg.bunsenlabs.org/debian boron InRelease [6,359 B]
+Get:7 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1,214 B]
+Get:8 https://deb.debian.org/debian-security bookworm-security/main amd64 Packages [293 kB]
+Fetched 406 kB in 2s (187 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+1 package can be upgraded. Run 'apt list --upgradable' to see it.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  arch-test bridge-utils cloud-image-utils debootstrap distro-info fakechroot
+  fakeroot genisoimage ibverbs-providers libdistro-info-perl libfakechroot
+  libfakeroot libfmt9 libgbinder libgfapi0 libgfrpc0 libgfxdr0 libglibutil
+  libglusterfs0 libibverbs1 libiscsi7 liblxc-common liblxc1 libpam-cgfs
+  librados2 librbd1 librdmacm1 libssh-4 libsubid4 libwpe-1.0-1
+  libwpebackend-fdo-1.0-1 lxc lxc-templates lxcfs mmdebstrap python3-gbinder
+  qemu-block-extra qemu-utils uidmap
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  libfdt1 libyaml-0-2
+The following NEW packages will be installed:
+  device-tree-compiler libfdt1 libyaml-0-2
+0 upgraded, 3 newly installed, 0 to remove and 1 not upgraded.
+Need to get 300 kB of archives.
+After this operation, 680 kB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian bookworm/main amd64 libfdt1 amd64 1.6.1-4+b1 [19.0 kB]
+Get:2 https://deb.debian.org/debian bookworm/main amd64 libyaml-0-2 amd64 0.2.5-1 [53.6 kB]
+Get:3 https://deb.debian.org/debian bookworm/main amd64 device-tree-compiler amd64 1.6.1-4+b1 [227 kB]
+Fetched 300 kB in 0s (613 kB/s)           
+Selecting previously unselected package libfdt1:amd64.
+(Reading database ... 161586 files and directories currently installed.)
+Preparing to unpack .../libfdt1_1.6.1-4+b1_amd64.deb ...
+Unpacking libfdt1:amd64 (1.6.1-4+b1) ...
+Selecting previously unselected package libyaml-0-2:amd64.
+Preparing to unpack .../libyaml-0-2_0.2.5-1_amd64.deb ...
+Unpacking libyaml-0-2:amd64 (0.2.5-1) ...
+Selecting previously unselected package device-tree-compiler.
+Preparing to unpack .../device-tree-compiler_1.6.1-4+b1_amd64.deb ...
+Unpacking device-tree-compiler (1.6.1-4+b1) ...
+Setting up libyaml-0-2:amd64 (0.2.5-1) ...
+Setting up libfdt1:amd64 (1.6.1-4+b1) ...
+Setting up device-tree-compiler (1.6.1-4+b1) ...
+Processing triggers for man-db (2.11.2-2) ...
+Processing triggers for libc-bin (2.36-9+deb12u13) ...
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ dtc -I dtb -O dts vendor_boot.img-dtb -o vendor_boot.dts
+FATAL ERROR: Blob has incorrect magic number
+winky@debian:~/Downloads/AIK/AIK-Linux/split_img$ 
