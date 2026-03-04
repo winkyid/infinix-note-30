@@ -1,0 +1,107 @@
+winky@debian:~/Downloads/platform-tools$ sudo ./adb devices
+[sudo] password for winky: 
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+List of devices attached
+
+winky@debian:~/Downloads/platform-tools$ sudo ./adb devices
+List of devices attached
+
+winky@debian:~/Downloads/platform-tools$ sudo ./adb devices
+List of devices attached
+
+winky@debian:~/Downloads/platform-tools$ sudo ./adb devices
+List of devices attached
+102752539E017967	unauthorized
+
+winky@debian:~/Downloads/platform-tools$ sudo ./adb devices
+List of devices attached
+102752539E017967	device
+
+winky@debian:~/Downloads/platform-tools$ sudo ./adb reboot fastboot
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot devices
+102752539E017967	 fastbootd
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot getvar all 2>&1 | grep vbmeta
+(bootloader) is-logical:vbmeta_a:no
+(bootloader) is-logical:vbmeta_vendor_a:no
+(bootloader) is-logical:vbmeta_b:no
+(bootloader) is-logical:vbmeta_vendor_b:no
+(bootloader) is-logical:vbmeta_system_a:no
+(bootloader) is-logical:vbmeta_system_b:no
+(bootloader) partition-size:vbmeta_a:0x800000
+(bootloader) partition-size:vbmeta_vendor_a:0x800000
+(bootloader) partition-size:vbmeta_b:0x800000
+(bootloader) partition-size:vbmeta_vendor_b:0x800000
+(bootloader) partition-size:vbmeta_system_a:0x800000
+(bootloader) partition-size:vbmeta_system_b:0x800000
+(bootloader) partition-type:vbmeta_a:raw
+(bootloader) partition-type:vbmeta_vendor_a:raw
+(bootloader) partition-type:vbmeta_b:raw
+(bootloader) partition-type:vbmeta_vendor_b:raw
+(bootloader) partition-type:vbmeta_system_a:raw
+(bootloader) partition-type:vbmeta_system_b:raw
+(bootloader) has-slot:vbmeta:yes
+(bootloader) has-slot:vbmeta_vendor:yes
+(bootloader) has-slot:vbmeta_system:yes
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot getvar vbmeta-hashing
+getvar:vbmeta-hashing                              FAILED (remote: 'Unknown variable')
+Finished. Total time: 0.001s
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot getvar current-slot
+current-slot: a
+Finished. Total time: 0.001s
+winky@debian:~/Downloads/platform-tools$ cp ~/Downloads/tes/vbmeta.img ~/Downloads/platform-tools/
+winky@debian:~/Downloads/platform-tools$ ls
+adb       hprof-conv     make_f2fs           mke2fs.conf        sqlite3
+etc1tool  image-new.img  make_f2fs_casefold  NOTICE.txt         vbmeta.img
+fastboot  lib64          mke2fs              source.properties
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot devices
+102752539E017967	 fastbootd
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot flash vendor_boot_a image-new.img
+Sending 'vendor_boot_a' (65536 KB)                 OKAY [  2.446s]
+Writing 'vendor_boot_a'                            OKAY [  0.196s]
+Finished. Total time: 2.662s
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot flash --disable-verity --disable-verification vbmeta_a vbmeta.img
+fastboot: error: Failed to find AVB_MAGIC at offset: 0
+winky@debian:~/Downloads/platform-tools$ ls -lh vbmeta.img
+-rw-r--r-- 1 winky winky 8.0K Mar  4 08:03 vbmeta.img
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot flash --disable-verity --disable-verification vbmeta vbmeta.img
+fastboot: error: Failed to find AVB_MAGIC at offset: 0
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot flash vbmeta_a vbmeta.img
+Sending 'vbmeta_a' (8 KB)                          OKAY [  0.002s]
+Writing 'vbmeta_a'                                 OKAY [  0.007s]
+Finished. Total time: 0.028s
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot --disable-verity --disable-verification flash vbmeta_a vbmeta.img
+fastboot: error: Failed to find AVB_MAGIC at offset: 0
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot flash vendor_boot_a image-new.img
+Sending 'vendor_boot_a' (65536 KB)                 OKAY [  2.382s]
+Writing 'vendor_boot_a'                            OKAY [  0.197s]
+Finished. Total time: 2.596s
+winky@debian:~/Downloads/platform-tools$ sudo ./fastboot reboot
+Rebooting                                          OKAY [  0.001s]
+Finished. Total time: 0.101s
+winky@debian:~/Downloads/platform-tools$ ./adb shell
+Infinix-X6833B:/ $ exit
+winky@debian:~/Downloads/platform-tools$ sudo ./adb shell
+Infinix-X6833B:/ $ cat /proc/cmdline
+cat: /proc/cmdline: Permission denied
+1|Infinix-X6833B:/ $ whoami
+shell
+Infinix-X6833B:/ $ su
+/system/bin/sh: su: inaccessible or not found
+127|Infinix-X6833B:/ $ exit                                                    
+winky@debian:~/Downloads/platform-tools$ sudo ./adb reboot recovery
+winky@debian:~/Downloads/platform-tools$ sudo ./adb shell
+Infinix-X6833B:/tmp # cd /
+Infinix-X6833B:/ # cat /proc/cmdline
+stack_depot_disable=on kasan.stacktrace=off kvm-arm.mode=protected cgroup_disable=pressure cgroup.memory=nokmem  console=tty0 root=/dev/ram loglevel=8 8250.nr_uarts=4 initcall_debug=1 transparent_hugepage=never vmalloc=400M swiotlb=noforce firmware_class.path=/vendor/firmware page_owner=on pelt=8 loop.max_part=7 FlashID=Hosing+eUFS2.2_256 mem_index=1 aw8622x_lk_f0_cali=0x3a fs3001_lk_f0_cali=<null> has_battery_removed=0 ramoops.mem_address=0x48090000 ramoops.mem_size=0xe0000 ramoops.pmsg_size=0x40000 ramoops.console_size=0x40000 usb2jtag_mode=0 root=/dev/ram bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe log_buf_len=2m mtk_printk_ctrl.disable_uart=1 sfi=0x00000000 PN=x6833b_h894 tran_aging_mode=0 arm64.nomte tkv=4294930432 bootconfig
+Infinix-X6833B:/ # dmesg | grep -i kvm
+[    0.000000] KVM is not available. Ignoring kvm-arm.mode
+[    0.000000] Kernel command line: stack_depot_disable=on kasan.stacktrace=off kvm-arm.mode=protected cgroup_disable=pressure cgroup.memory=nokmem  console=tty0 root=/dev/ram loglevel=8 8250.nr_uarts=4 initcall_debug=1 transparent_hugepage=never vmalloc=400M swiotlb=noforce firmware_class.path=/vendor/firmware page_owner=on pelt=8 loop.max_part=7 FlashID=Hosing+eUFS2.2_256 mem_index=1 aw8622x_lk_f0_cali=0x3a fs3001_lk_f0_cali=<null> has_battery_removed=0 ramoops.mem_address=0x48090000 ramoops.mem_size=0xe0000 ramoops.pmsg_size=0x40000 ramoops.console_size=0x40000 usb2jtag_mode=0 root=/dev/ram bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe log_buf_len=2m mtk_printk_ctrl.disable_uart=1 sfi=0x00000000 PN=x6833b_h894 tran_aging_mode=0 arm64.nomte tkv=4294930432 bootconfig
+[    0.534770] calling  __initstub__kmod_kvm__433_2181_arm_init6+0x0/0x8 @ 1
+[    0.534774] kvm [1]: HYP mode not available
+[    0.534779] initcall __initstub__kmod_kvm__433_2181_arm_init6+0x0/0x8 returned -19 after 3 usecs
+[    1.274275] chg_get_cmd: bootargs:  console=tty0 root=/dev/ram loglevel=8 8250.nr_uarts=4 initcall_debug=1 transparent_hugepage=never vmalloc=400M swiotlb=noforce firmware_class.path=/vendor/firmware page_owner=on pelt=8 loop.max_part=7 FlashID=Hosing+eUFS2.2_256 mem_index=1 aw8622x_lk_f0_cali=0x3a fs3001_lk_f0_cali=<null> has_battery_removed=0 ramoops.mem_address=0x48090000 ramoops.mem_size=0xe0000 ramoops.pmsg_size=0x40000 ramoops.console_size=0x40000 usb2jtag_mode=0 root=/dev/ram bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe log_buf_len=2m mtk_printk_ctrl.disable_uart=1 sfi=0x00000000 PN=x6833b_h894 tran_aging_mode=0 arm64.nomte tkv=4294930432 bootconfig
+[    1.724633] tkv_get_cmd: bootargs:  console=tty0 root=/dev/ram loglevel=8 8250.nr_uarts=4 initcall_debug=1 transparent_hugepage=never vmalloc=400M swiotlb=noforce firmware_class.path=/vendor/firmware page_owner=on pelt=8 loop.max_part=7 FlashID=Hosing+eUFS2.2_256 mem_index=1 aw8622x_lk_f0_cali=0x3a fs3001_lk_f0_cali=<null> has_battery_removed=0 ramoops.mem_address=0x48090000 ramoops.mem_size=0xe0000 ramoops.pmsg_size=0x40000 ramoops.console_size=0x40000 usb2jtag_mode=0 root=/dev/ram bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe log_buf_len=2m mtk_printk_ctrl.disable_uart=1 sfi=0x00000000 PN=x6833b_h894 tran_aging_mode=0 arm64.nomte tkv=4294930432 bootconfig
+[    1.725349] tkv_recovery_get_cmd: bootargs:  console=tty0 root=/dev/ram loglevel=8 8250.nr_uarts=4 initcall_debug=1 transparent_hugepage=never vmalloc=400M swiotlb=noforce firmware_class.path=/vendor/firmware page_owner=on pelt=8 loop.max_part=7 FlashID=Hosing+eUFS2.2_256 mem_index=1 aw8622x_lk_f0_cali=0x3a fs3001_lk_f0_cali=<null> has_battery_removed=0 ramoops.mem_address=0x48090000 ramoops.mem_size=0xe0000 ramoops.pmsg_size=0x40000 ramoops.console_size=0x40000 usb2jtag_mode=0 root=/dev/ram bootopt=64S3,32N2,64N2 kvm-arm.mode=nvhe log_buf_len=2m mtk_printk_ctrl.disable_uart=1 sfi=0x00000000 PN=x6833b_h894 tran_aging_mode=0 arm64.nomte tkv=4294930432 bootconfig
+Infinix-X6833B:/ # exit
+winky@debian:~/Downloads/platform-tools$ 
